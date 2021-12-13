@@ -26,4 +26,4 @@ jobs:
     - name: Pack
       run: dotnet pack "MShortt.NET.Helpers/MShortt.NET.Helpers.csproj" --configuration Release --output packages
     - name: Publish
-      run: dotnet nuget push packages/*.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source "https://api.nuget.org/v3/index.json"
+      run: dotnet nuget push packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"
