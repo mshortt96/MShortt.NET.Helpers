@@ -1,7 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>mshortt</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageTags>C#; .NET; NET; Helpers; Extensions; MShortt; MShortt.NET</PackageTags>
+    <RepositoryUrl>https://github.com/mshortt96/MShortt.NET.Helpers</RepositoryUrl>
+    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <Version>1.0.0</Version>
+    <Description>A lightweight .NET C# class library containing a number of helpful constants, extensions, etc. to speed up development and improve readability.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
