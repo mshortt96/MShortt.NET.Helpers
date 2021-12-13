@@ -1,4 +1,7 @@
-﻿namespace MShortt.NET.Helpers.Extensions
+﻿using MShortt.NET.Helpers.Constants;
+using System.Text.RegularExpressions;
+
+namespace MShortt.NET.Helpers.Extensions
 {
     public static class StringExtension
     {
@@ -11,6 +14,14 @@
             return string.IsNullOrEmpty(value)
                 ? value
                 : value.Trim(trimChars);
+        }
+
+        /// <summary>Trims all leading and trailing white space characters from the string, and replaces instances of double spacing, triple spacing, etc. with a single space.</summary>
+        public static string RemoveRedundantSpacing(this string value)
+        {
+            return value == string.Empty
+                ? value
+                : Regex.Replace(value.Trim(), @"\s{2,}", WhiteSpaceConstant.String);
         }
     }
 }
