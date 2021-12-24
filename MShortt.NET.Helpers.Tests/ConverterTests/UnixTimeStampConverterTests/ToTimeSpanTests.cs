@@ -10,10 +10,14 @@ public class ToTimeSpanTests : UnixTimeStampConverterTests
 {
     private static IEnumerable<TestCaseData> TestCases => GetTestData().Select(x =>
     {
-        return x.Input.Returns(x.ExpectedOutputAsOffset.Offset);
+        TimeSpan expectedTimeSpan = DateTimeOffset.UnixEpoch >= x.ExpectedOutputAsOffset
+            ? DateTimeOffset.UnixEpoch - x.ExpectedOutputAsOffset
+            : x.ExpectedOutputAsOffset - DateTimeOffset.UnixEpoch;
+
+        return x.Input.Returns(expectedTimeSpan);
     });
 
     [TestCaseSource(nameof(TestCases))]
     public TimeSpan ReturnsExpectedValueTest(double timeStamp, TimeStampKind timeStampKind)
-        => Converter.ConvertToTimeSpan(timeStamp, timeStampKind);
+        => Converter.ConvertToUtcEpochTimeSpan(timeStamp, timeStampKind);
 }

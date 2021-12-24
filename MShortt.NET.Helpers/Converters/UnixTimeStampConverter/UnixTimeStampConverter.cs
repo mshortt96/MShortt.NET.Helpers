@@ -7,7 +7,7 @@ namespace MShortt.NET.Helpers.Converters
     {
         public override DateTimeOffset ConvertToDateTimeOffset(double timeStamp, TimeStampKind timeStampKind)
         {
-            DateTimeOffset offset = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            DateTimeOffset offset = UnixEpoch;
 
             switch (timeStampKind)
             {
