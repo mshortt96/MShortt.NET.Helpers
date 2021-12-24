@@ -7,9 +7,9 @@
     <PackageIcon>Icon.png</PackageIcon>
     <PackageTags>C#; .NET; NET; Helpers; Extensions; MShortt; MShortt.NET</PackageTags>
     <RepositoryUrl>https://github.com/mshortt96/MShortt.NET.Helpers</RepositoryUrl>
-    <FileVersion>1.1.0</FileVersion>
+    <FileVersion>1.1.1</FileVersion>
     <AssemblyVersion>1.0.0</AssemblyVersion>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Description>A lightweight .NET C# class library containing a number of helpful constants, extensions, etc. to speed up development and improve readability.</Description>
   </PropertyGroup>
 
