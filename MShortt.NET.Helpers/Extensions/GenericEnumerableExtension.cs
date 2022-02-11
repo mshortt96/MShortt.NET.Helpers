@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MShortt.NET.Helpers.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,22 +21,25 @@ namespace MShortt.NET.Helpers.Extensions
             => new ObservableCollection<T>(collection);
 
         /// <summary>Gets the total number of pages for paginating this collection, based on the specified maximum results per page.</summary>
-        public static long GetTotalPages<T>(this IEnumerable<T> collection, int resultsPerPage)
-        {
-            if (resultsPerPage == 0 || !collection.Any())
-                return 0;
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static int GetTotalPages<T>(this IEnumerable<T> collection, int resultsPerPage)
+            => Pagination.GetTotalPages(collection.Count(), resultsPerPage);
 
-            double totalItems = collection.Count();
-            double resultAsDouble = Math.Ceiling(totalItems / resultsPerPage);
-            return Convert.ToInt64(resultAsDouble);
-        }
+        /// <summary>Gets the elements in the collection pertaining to the specified Pagination data.</summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IEnumerable<T> GetPage<T>(this IEnumerable<T> collection, Pagination pagination)
+            => GetPage(collection, pagination.Page, pagination.ResultsPerPage);
 
         /// <summary>Gets the elements in the collection pertaining to the specified page number and maximum results per page.</summary>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static IEnumerable<T> GetPage<T>(this IEnumerable<T> collection, int page, int resultsPerPage)
         {
             if (page < 1)
-                throw new ArgumentException("Cannot be less than 1.", nameof(page));
+                throw new ArgumentOutOfRangeException(nameof(page));
+
+            if (resultsPerPage < 1)
+                throw new ArgumentOutOfRangeException(nameof(resultsPerPage));
 
             if (!collection.Any())
                 return collection;

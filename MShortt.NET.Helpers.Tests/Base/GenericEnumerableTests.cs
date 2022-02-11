@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests;
 
-public abstract class GenericEnumerableExtensionTestSuite
+public abstract class GenericEnumerableTests
 {
     protected static IEnumerable<int> EmptyCollection { get; }
     protected static IEnumerable<int> SingleItemCollection { get; }
@@ -12,7 +12,7 @@ public abstract class GenericEnumerableExtensionTestSuite
     private static List<IEnumerable<int>> multipleItemCollectionCache;
     private static object multipleItemCollectionWriteLock;
 
-    static GenericEnumerableExtensionTestSuite()
+    static GenericEnumerableTests()
     {
         EmptyCollection = Enumerable.Empty<int>();
         SingleItemCollection = new int[] { 1 };

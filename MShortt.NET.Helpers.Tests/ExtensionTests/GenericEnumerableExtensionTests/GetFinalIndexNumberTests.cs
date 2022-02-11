@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
 
-public class GetFinalIndexNumberTests : GenericEnumerableExtensionTestSuite
+public class GetFinalIndexNumberTests : GenericEnumerableTests
 {
     private static IEnumerable<TestCaseData> TestCases
     {

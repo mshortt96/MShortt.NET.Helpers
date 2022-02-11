@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
 
-public class IsNullOrEmptyTests : GenericEnumerableExtensionTestSuite
+public class IsNullOrEmptyTests : GenericEnumerableTests
 {
     private static IEnumerable<TestCaseData> TestCases
     {

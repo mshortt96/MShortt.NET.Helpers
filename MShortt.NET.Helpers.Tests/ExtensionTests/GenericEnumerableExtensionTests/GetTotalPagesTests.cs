@@ -1,25 +1,24 @@
 ﻿using MShortt.NET.Helpers.Extensions;
-using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
 
-public class GetTotalPagesTests : GenericEnumerableExtensionTestSuite
+public class GetTotalPagesTests : PagingTests
 {
-
-    private static IEnumerable<TestCaseData> TestCases 
+    protected override Action ThrowsIfItemsPerPageInvalidMethodCall 
     { 
-        get 
-        {
-            yield return new TestCaseData(EmptyCollection, 1).Returns(0);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 0).Returns(0);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 1).Returns(3);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 3).Returns(1);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 2).Returns(2);
+        get
+        { 
+            return () => SingleItemCollection.GetTotalPages(0);
         } 
     }
 
-    [TestCaseSource(nameof(TestCases))]
-    public long ReturnsExpectedLongTest(IEnumerable<int> collection, int resultsPerPage)
-        => collection.GetTotalPages(resultsPerPage);
+    protected override Func<IEnumerable<int>, int, int> ReturnsExpectedIntMethodCall
+    {
+        get
+        {
+            return (collection, resultsPerPage) => collection.GetTotalPages(resultsPerPage);
+        }
+    }
 }

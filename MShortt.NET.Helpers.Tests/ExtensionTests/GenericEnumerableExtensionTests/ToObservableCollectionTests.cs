@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
 
-public class ToObservableCollectionTests : GenericEnumerableExtensionTestSuite
+public class ToObservableCollectionTests : GenericEnumerableTests
 {
     [Test]
     public void PreservesElementsTest()
