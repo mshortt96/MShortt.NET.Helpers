@@ -12,6 +12,23 @@ namespace MShortt.NET.Helpers.Extensions
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
             => collection == null || !collection.Any();
 
+        /// <summary>
+        ///     Indicates whether the specified collection is not null and contains at least one element. For the latter
+        ///     evaluation, a predicate may be provided to instead check for at least one element that matches a condition.
+        /// </summary>
+        public static bool IsNotNullAndHasAny<T>(this IEnumerable<T> collection, Func<T, bool> predicate = null)
+        {
+            if (collection == null)
+            {
+                return false;
+            }
+
+            else
+            {
+                return predicate == null ? collection.Any() : collection.Any(predicate);
+            }
+        }
+
         /// <summary>Gets the zero-based index number of the last element in the collection, or -1 if the collection is empty.</summary>
         public static int GetFinalIndexNumber<T>(this IEnumerable<T> collection)
             => collection.Any() ? collection.Count() - 1 : -1;

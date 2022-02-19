@@ -2,7 +2,6 @@
 
 namespace MShortt.NET.Helpers.Data
 {
-    /// <summary>A data class for paging operations.</summary>
     public class Pagination
     {
         private int _page;
