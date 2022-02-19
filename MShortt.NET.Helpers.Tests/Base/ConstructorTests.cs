@@ -5,7 +5,7 @@ namespace MShortt.NET.Helpers.Tests
 {
     public abstract class ConstructorTests<T>
     {
-        private Type objectType;
+        private readonly Type objectType;
 
         public ConstructorTests()
         {
