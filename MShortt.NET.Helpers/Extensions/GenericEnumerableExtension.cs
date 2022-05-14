@@ -8,6 +8,18 @@ namespace MShortt.NET.Helpers.Extensions
 {
     public static class GenericEnumerableExtension
     {
+        /// <summary>
+        ///     Returns a new collection with all instances of the given item removed. If no Equality Comparer is provided, equality checking will
+        ///     default to being either value-based or reference-based depending on the type.
+        /// </summary>
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> collection, T itemToExclude, IEqualityComparer<T> equalityComparer = null)
+        {
+            return equalityComparer is null
+                ? collection.Where(x => !x.Equals(itemToExclude))
+                : collection.Where(x => !equalityComparer.Equals(x, itemToExclude));
+        }
+
+
         /// <summary>Indicates whether the specified collection is null or contains no elements.</summary>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
             => collection == null || !collection.Any();
