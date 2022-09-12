@@ -8,6 +8,25 @@ namespace MShortt.NET.Helpers.Extensions
 {
     public static class GenericEnumerableExtension
     {
+        /// <summary>Indicates whether the specified collection contains any repeated elements.</summary>
+        public static bool HasDuplicates<T>(this IEnumerable<T> collection, IEqualityComparer<T> equalityComparer = null)
+        {
+            return collection.Count() > 1 
+                ? collection.GroupBy(x => x, equalityComparer).Any(x => x.Count() > 1) 
+                : false;
+        }
+
+        /// <summary>
+        ///     Indicates whether the specified collection contains all elements of another. 
+        ///     If either collection has no elements, the result will be false.
+        /// </summary>
+        public static bool Contains<T>(this IEnumerable<T> collection, IEnumerable<T> secondCollection, IEqualityComparer<T> equalityComparer = null)
+        {
+            return !collection.Any() || !secondCollection.Any() 
+                ? false 
+                : collection.Intersect(secondCollection, equalityComparer).Count() == secondCollection.Count();
+        }
+
         /// <summary>
         ///     Returns a new collection with all instances of the given item removed. If no Equality Comparer is provided, equality checking will
         ///     default to being either value-based or reference-based depending on the type.
@@ -18,7 +37,6 @@ namespace MShortt.NET.Helpers.Extensions
                 ? collection.Where(x => !x.Equals(itemToExclude))
                 : collection.Where(x => !equalityComparer.Equals(x, itemToExclude));
         }
-
 
         /// <summary>Indicates whether the specified collection is null or contains no elements.</summary>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
