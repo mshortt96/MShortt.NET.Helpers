@@ -32,7 +32,7 @@ namespace MShortt.NET.Helpers.Internal
 
             else
             {
-                return HasPopulatedProperties(obj, bindingFlags);
+                return HasPopulatedAutoGetterProperties(obj, bindingFlags);
             }
         }
 
@@ -40,11 +40,11 @@ namespace MShortt.NET.Helpers.Internal
         {
             return typeof(T)
                 .GetFields(bindingFlags)
-                .Where(x => HasSpecifiedAccessibility(x) && HasValue(x.GetValue(obj)))
+                .Where(x => HasSpecifiedAccessibility(x, options.FieldAccessibility) && HasValue(x.GetValue(obj)))
                 .Any();
         }
 
-        private bool HasPopulatedProperties<T>(T obj, BindingFlags bindingFlags)
+        private bool HasPopulatedAutoGetterProperties<T>(T obj, BindingFlags bindingFlags)
         {
             return typeof(T)
                 .GetProperties(bindingFlags)
@@ -52,91 +52,58 @@ namespace MShortt.NET.Helpers.Internal
                 {
                     bool hasAutoGetter = x.GetMethod.CustomAttributes.Any(y => y.AttributeType == typeof(CompilerGeneratedAttribute));
                     return hasAutoGetter
-                        ? HasSpecifiedAccessibility(x) && HasValue(x.GetValue(obj)) 
+                        ? HasSpecifiedAccessibility(x.GetMethod, options.AutoPropertyGetterAccessibility) && HasValue(x.GetValue(obj)) 
                         : false;
                 })
                 .Any();
         }
 
-
-        private bool HasSpecifiedAccessibility(FieldInfo field)
+        //Using reflection to invoke the access evaluation properties as FieldInfo, MethodBase and PropertyInfo don't inherit them from a common ancestor.
+        //While this has a performance impact and could be considered a bit dodgy, from a maintainability standpoint it allows us to have this single method
+        //for each MemberInfo derivative the class works with, instead of multiple, near-identical overloads.
+        private bool HasSpecifiedAccessibility(MemberInfo memberInfo, PopulationCheckMemberAccessibilityOption accessibility)
         {
-            if(options.FieldAccessibility is PopulationCheckMemberAccessibilityOption.All)
+            if (accessibility is PopulationCheckMemberAccessibilityOption.All)
             {
                 return true;
             }
 
-            if (options.FieldAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Public) && field.IsPublic)
+            else
             {
-                return true;
+                Type memberInfoType = memberInfo.GetType();
+
+                if (accessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Public) && (bool)memberInfoType.GetProperty("IsPublic").GetValue(memberInfo))
+                {
+                    return true;
+                }
+
+                if (accessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Private) && (bool)memberInfoType.GetProperty("IsPrivate").GetValue(memberInfo))
+                {
+                    return true;
+                }
+
+                if (accessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Protected) && (bool)memberInfoType.GetProperty("IsFamily").GetValue(memberInfo))
+                {
+                    return true;
+                }
+
+                if (accessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Internal) && (bool)memberInfoType.GetProperty("IsAssembly").GetValue(memberInfo))
+                {
+                    return true;
+                }
+
+                if (accessibility.HasFlag(PopulationCheckMemberAccessibilityOption.ProtectedInternal) && (bool)memberInfoType.GetProperty("IsFamilyOrAssembly").GetValue(memberInfo))
+                {
+                    return true;
+                }
+
+                if (accessibility.HasFlag(PopulationCheckMemberAccessibilityOption.PrivateProtected) && (bool)memberInfoType.GetProperty("IsFamilyAndAssembly").GetValue(memberInfo))
+                {
+                    return true;
+                }
+
+                return false;
             }
-
-            if (options.FieldAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Private) && field.IsPrivate)
-            {
-                return true;
-            }
-
-            if (options.FieldAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Protected) && field.IsFamily)
-            {
-                return true;
-            }
-
-            if (options.FieldAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Internal) && field.IsAssembly)
-            {
-                return true;
-            }
-
-            if(options.FieldAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.ProtectedInternal) && field.IsFamilyOrAssembly)
-            {
-                return true;
-            }
-
-            if (options.FieldAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.PrivateProtected) && field.IsFamilyAndAssembly)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool HasSpecifiedAccessibility(PropertyInfo property)
-        {
-            if (options.AutoPropertyGetterAccessibility is PopulationCheckMemberAccessibilityOption.All)
-            {
-                return true;
-            }
-
-            if (options.AutoPropertyGetterAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Public) && property.GetMethod.IsPublic)
-            {
-                return true;
-            }
-
-            if (options.AutoPropertyGetterAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Private) && property.GetMethod.IsPrivate)
-            {
-                return true;
-            }
-
-            if (options.AutoPropertyGetterAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Protected) && property.GetMethod.IsFamily)
-            {
-                return true;
-            }
-
-            if (options.AutoPropertyGetterAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.Internal) && property.GetMethod.IsAssembly)
-            {
-                return true;
-            }
-
-            if (options.AutoPropertyGetterAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.ProtectedInternal) && property.GetMethod.IsFamilyOrAssembly)
-            {
-                return true;
-            }
-
-            if (options.AutoPropertyGetterAccessibility.HasFlag(PopulationCheckMemberAccessibilityOption.PrivateProtected) && property.GetMethod.IsFamilyAndAssembly)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private bool HasValue(object obj)

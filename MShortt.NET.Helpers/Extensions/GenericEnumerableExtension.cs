@@ -18,12 +18,15 @@ namespace MShortt.NET.Helpers.Extensions
 
         /// <summary>
         ///     Indicates whether the specified collection contains all elements of another. 
-        ///     If either collection has no elements, the result will be false.
+        ///     If either collection has no elements, the result will be <see langword="false" />.
         /// </summary>
         public static bool Contains<T>(this IEnumerable<T> collection, IEnumerable<T> secondCollection, IEqualityComparer<T> equalityComparer = null)
         {
-            return !collection.Any() || !secondCollection.Any() 
-                ? false 
+            if(collection == secondCollection && collection.Any())
+                return true;
+
+            return !collection.Any() || !secondCollection.Any()
+                ? false
                 : collection.Intersect(secondCollection, equalityComparer).Count() == secondCollection.Count();
         }
 
