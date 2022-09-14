@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
 
@@ -11,9 +12,9 @@ public class GetFinalIndexNumberTests : GenericEnumerableTests
     {
         get
         {
-            yield return new TestCaseData(EmptyCollection).Returns(-1);
-            yield return new TestCaseData(SingleItemCollection).Returns(0);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(2)).Returns(1);
+            yield return new TestCaseData(Enumerable.Empty<int>()).Returns(-1);
+            yield return new TestCaseData(GetCollectionWithItems<int>(1)).Returns(0);
+            yield return new TestCaseData(GetCollectionWithItems<int>(2)).Returns(1);
         }
     }
 

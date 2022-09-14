@@ -10,7 +10,7 @@ public class GetTotalPagesTests : PagingTests
     { 
         get
         { 
-            return () => SingleItemCollection.GetTotalPages(0);
+            return () => GetCollectionWithItems<int>(1).GetTotalPages(0);
         } 
     }
 

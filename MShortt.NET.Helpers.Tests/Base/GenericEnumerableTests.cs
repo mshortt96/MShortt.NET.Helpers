@@ -1,46 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MShortt.NET.Helpers.Tests;
 
 public abstract class GenericEnumerableTests
 {
-    protected static IEnumerable<int> EmptyCollection { get; }
-    protected static IEnumerable<int> SingleItemCollection { get; }
-
-    private static List<IEnumerable<int>> multipleItemCollectionCache;
-    private static object multipleItemCollectionWriteLock;
-
-    static GenericEnumerableTests()
+    /// <exception cref="ArgumentException"/>
+    protected static IEnumerable<T> GetCollectionWithItems<T>(int itemCount, params Func<T>[] itemInitializers)
     {
-        EmptyCollection = Enumerable.Empty<int>();
-        SingleItemCollection = new int[] { 1 };
-
-        multipleItemCollectionCache = new();
-        multipleItemCollectionWriteLock = new();
-    }
-
-    protected static IEnumerable<int> GetCollectionWithMultipleItems(int itemCount = 2)
-    {
-        if (itemCount < 2)
-            throw new ArgumentException("Cannot be less than 2.", nameof(itemCount));
-
-        //Tests may run in parallel. Thread lock access to cache to prevent race condition.
-        lock (multipleItemCollectionWriteLock)
+        if(itemCount < 1)
         {
-            IEnumerable<int> collection = multipleItemCollectionCache.FirstOrDefault(x => x.Count() == itemCount);
-            if (collection is null)
-            {
-                int[] array = new int[itemCount];
-                for (int i = 0; i < itemCount; i++)
-                    array[i] = i;
+            throw new ArgumentException("Cannot be less than 1.", nameof(itemCount));
+        }
 
-                collection = array;
-                multipleItemCollectionCache.Add(collection);
+        else
+        {
+            T[] array = new T[itemCount];
+            for (int i = 0; i < itemCount; i++)
+            {
+                array[i] = itemInitializers is null || i >= itemInitializers.Length
+                    ? Activator.CreateInstance<T>()
+                    : itemInitializers[i].Invoke();
             }
 
-            return collection;
+            return array;
         }
     }
 }

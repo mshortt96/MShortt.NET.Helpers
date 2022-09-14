@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MShortt.NET.Helpers.Tests;
 
@@ -12,10 +13,12 @@ public abstract class PagingTests : GenericEnumerableTests
     {
         get
         {
-            yield return new TestCaseData(EmptyCollection, 1).Returns(0);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 1).Returns(3);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 3).Returns(1);
-            yield return new TestCaseData(GetCollectionWithMultipleItems(3), 2).Returns(2);
+            IEnumerable<int> populatedCollection = GetCollectionWithItems<int>(3);
+
+            yield return new TestCaseData(Enumerable.Empty<int>(), 1).Returns(0);
+            yield return new TestCaseData(populatedCollection, 1).Returns(3);
+            yield return new TestCaseData(populatedCollection, 3).Returns(1);
+            yield return new TestCaseData(populatedCollection, 2).Returns(2);
         }
     }
 

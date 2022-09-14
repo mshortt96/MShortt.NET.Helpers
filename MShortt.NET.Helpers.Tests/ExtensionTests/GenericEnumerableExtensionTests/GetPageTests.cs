@@ -13,17 +13,19 @@ public class GetPageTests : GenericEnumerableTests
     {
         get
         {
-            IEnumerable<int> collection = GetCollectionWithMultipleItems(3);
-            int collectionCount = collection.Count();
+            IEnumerable<int> emptyCollection = Enumerable.Empty<int>();
+
+            IEnumerable<int> populatedCollection = GetCollectionWithItems<int>(3);
+            int populatedCollectionCount = populatedCollection.Count();
 
             return new List<TestCaseData>()
             {
-                new(EmptyCollection, 1, 1, EmptyCollection),
-                new(collection, 1, 1, collection.Take(1)),
-                new(collection, 1, 2, collection.Take(2)),
-                new(collection, 2, 2, collection.Skip(2).Take(2)),
-                new(collection, 1, collectionCount, collection),
-                new(collection, 2, collectionCount, EmptyCollection)
+                new(emptyCollection, 1, 1, emptyCollection),
+                new(populatedCollection, 1, 1, populatedCollection.Take(1)),
+                new(populatedCollection, 1, 2, populatedCollection.Take(2)),
+                new(populatedCollection, 2, 2, populatedCollection.Skip(2).Take(2)),
+                new(populatedCollection, 1, populatedCollectionCount, populatedCollection),
+                new(populatedCollection, 2, populatedCollectionCount, emptyCollection)
             };
         }
     }
@@ -32,9 +34,11 @@ public class GetPageTests : GenericEnumerableTests
     [TestCase(false)]
     public void ThrowsExceptionIfParameterLessThanOneTest(bool pageNumber)
     {
+        IEnumerable<int> collection = GetCollectionWithItems<int>(1);
+
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            IEnumerable<int> result = pageNumber ? SingleItemCollection.GetPage(0, 1) : SingleItemCollection.GetPage(1, 0);
+            IEnumerable<int> result = pageNumber ? collection.GetPage(0, 1) : collection.GetPage(1, 0);
         });
     }
 
