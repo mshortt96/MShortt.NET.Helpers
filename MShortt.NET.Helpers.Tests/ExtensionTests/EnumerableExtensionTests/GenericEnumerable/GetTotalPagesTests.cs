@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
 public class GetTotalPagesTests : PagingTests
 {
@@ -10,7 +10,7 @@ public class GetTotalPagesTests : PagingTests
     { 
         get
         { 
-            return () => GetCollectionWithItems<int>(1).GetTotalPages(0);
+            return () => GetListWithItems<int>(1).GetTotalPages(0);
         } 
     }
 

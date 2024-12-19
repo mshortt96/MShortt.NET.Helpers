@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class GetPageTests : GenericEnumerableTests
+public class GetPageTests : EnumerableTests
 {
     private static IEnumerable<TestCaseData> TestCases 
     {
@@ -15,7 +15,7 @@ public class GetPageTests : GenericEnumerableTests
         {
             IEnumerable<int> emptyCollection = Enumerable.Empty<int>();
 
-            IEnumerable<int> populatedCollection = GetCollectionWithItems<int>(3);
+            IEnumerable<int> populatedCollection = GetListWithItems<int>(3);
             int populatedCollectionCount = populatedCollection.Count();
 
             return new List<TestCaseData>()
@@ -34,7 +34,7 @@ public class GetPageTests : GenericEnumerableTests
     [TestCase(false)]
     public void ThrowsExceptionIfParameterLessThanOneTest(bool pageNumber)
     {
-        IEnumerable<int> collection = GetCollectionWithItems<int>(1);
+        IEnumerable<int> collection = GetListWithItems<int>(1);
 
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {

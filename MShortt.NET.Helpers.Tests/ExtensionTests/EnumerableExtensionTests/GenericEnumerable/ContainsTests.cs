@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class ContainsTests : GenericEnumerableTests
+public class ContainsTests : EnumerableTests
 {
     [TestCaseSource(nameof(GetUnapplicableTestCases))]
     [TestCaseSource(nameof(GetSelfReferenceTestCases))]
@@ -18,7 +18,7 @@ public class ContainsTests : GenericEnumerableTests
     private static IEnumerable<TestCaseData> GetUnapplicableTestCases()
     {
         IEnumerable<int> emptyCollection = Enumerable.Empty<int>();
-        IEnumerable<int> populatedCollection = GetCollectionWithItems<int>(1);
+        IEnumerable<int> populatedCollection = GetListWithItems<int>(1);
 
         return new TestCaseData[]
         {
@@ -31,7 +31,7 @@ public class ContainsTests : GenericEnumerableTests
     private static IEnumerable<TestCaseData> GetSelfReferenceTestCases()
     {
         IEnumerable<int> emptyCollection = Enumerable.Empty<int>();
-        IEnumerable<int> populatedCollection = GetCollectionWithItems<int>(1);
+        IEnumerable<int> populatedCollection = GetListWithItems<int>(1);
 
         return new TestCaseData[]
         {

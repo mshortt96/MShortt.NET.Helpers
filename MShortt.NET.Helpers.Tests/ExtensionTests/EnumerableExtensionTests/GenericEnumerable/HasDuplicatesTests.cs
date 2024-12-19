@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class HasDuplicatesTests : GenericEnumerableTests
+public class HasDuplicatesTests : EnumerableTests
 {
     [TestCaseSource(nameof(GetUnapplicableTestCases))]
     [TestCaseSource(nameof(GetValueEqualityTestCases))]
@@ -19,7 +19,7 @@ public class HasDuplicatesTests : GenericEnumerableTests
         return new TestCaseData[]
         {
             new TestCaseData(Enumerable.Empty<int>(), null, false),
-            new TestCaseData(GetCollectionWithItems<int>(1), null, false)
+            new TestCaseData(GetListWithItems<int>(1), null, false)
         };
     }
 

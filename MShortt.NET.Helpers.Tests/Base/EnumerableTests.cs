@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace MShortt.NET.Helpers.Tests;
 
-public abstract class GenericEnumerableTests
+public abstract class EnumerableTests
 {
     /// <exception cref="ArgumentException"/>
-    protected static IEnumerable<T> GetCollectionWithItems<T>(int itemCount, params Func<T>[] itemInitializers)
+    protected static IList<T> GetListWithItems<T>(int itemCount, params Func<T>[] itemInitializers)
     {
         if(itemCount < 1)
         {
@@ -15,15 +15,17 @@ public abstract class GenericEnumerableTests
 
         else
         {
-            T[] array = new T[itemCount];
+            IList<T> list = new List<T>();
             for (int i = 0; i < itemCount; i++)
             {
-                array[i] = itemInitializers is null || i >= itemInitializers.Length
+                T item = itemInitializers is null || i >= itemInitializers.Length
                     ? Activator.CreateInstance<T>()
                     : itemInitializers[i].Invoke();
+
+                list.Add(item);
             }
 
-            return array;
+            return list;
         }
     }
 }

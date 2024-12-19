@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class ExceptTests : GenericEnumerableTests
+public class ExceptTests : EnumerableTests
 {
     [TestCaseSource(nameof(GetStringTestCases))]
     [TestCaseSource(nameof(GetReferenceEqualityTestCases))]

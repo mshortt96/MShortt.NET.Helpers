@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class ToObservableCollectionTests : GenericEnumerableTests
+public class ToObservableCollectionTests : EnumerableTests
 {
     [Test]
     public void PreservesElementsTest()

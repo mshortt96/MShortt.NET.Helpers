@@ -4,17 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class GetFinalIndexNumberTests : GenericEnumerableTests
+public class GetFinalIndexNumberTests : EnumerableTests
 {
     private static IEnumerable<TestCaseData> TestCases
     {
         get
         {
             yield return new TestCaseData(Enumerable.Empty<int>()).Returns(-1);
-            yield return new TestCaseData(GetCollectionWithItems<int>(1)).Returns(0);
-            yield return new TestCaseData(GetCollectionWithItems<int>(2)).Returns(1);
+            yield return new TestCaseData(GetListWithItems<int>(1)).Returns(0);
+            yield return new TestCaseData(GetListWithItems<int>(2)).Returns(1);
         }
     }
 

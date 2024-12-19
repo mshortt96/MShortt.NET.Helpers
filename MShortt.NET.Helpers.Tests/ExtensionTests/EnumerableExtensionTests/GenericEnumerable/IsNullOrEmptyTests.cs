@@ -3,9 +3,9 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MShortt.NET.Helpers.Tests.ExtensionTests.GenericEnumerableExtensionTests;
+namespace MShortt.NET.Helpers.Tests.ExtensionTests.EnumerableExtensionTests.GenericEnumerable;
 
-public class IsNullOrEmptyTests : GenericEnumerableTests
+public class IsNullOrEmptyTests : EnumerableTests
 {
     private static IEnumerable<TestCaseData> TestCases
     {
@@ -13,7 +13,7 @@ public class IsNullOrEmptyTests : GenericEnumerableTests
         {
             yield return new TestCaseData(null).Returns(true);
             yield return new TestCaseData(Enumerable.Empty<int>()).Returns(true);
-            yield return new TestCaseData(GetCollectionWithItems<int>(1)).Returns(false);
+            yield return new TestCaseData(GetListWithItems<int>(1)).Returns(false);
         }
     }
 

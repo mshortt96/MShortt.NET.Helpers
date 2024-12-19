@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MShortt.NET.Helpers.Tests;
 
-public abstract class PagingTests : GenericEnumerableTests
+public abstract class PagingTests : EnumerableTests
 {
     protected abstract Action ThrowsIfItemsPerPageInvalidMethodCall { get; }
     protected abstract Func<IEnumerable<int>, int, int> ReturnsExpectedIntMethodCall { get; }
@@ -13,7 +13,7 @@ public abstract class PagingTests : GenericEnumerableTests
     {
         get
         {
-            IEnumerable<int> populatedCollection = GetCollectionWithItems<int>(3);
+            IEnumerable<int> populatedCollection = GetListWithItems<int>(3);
 
             yield return new TestCaseData(Enumerable.Empty<int>(), 1).Returns(0);
             yield return new TestCaseData(populatedCollection, 1).Returns(3);
